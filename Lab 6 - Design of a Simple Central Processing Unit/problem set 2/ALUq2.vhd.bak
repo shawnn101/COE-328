@@ -1,0 +1,67 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
+
+ENTITY ALU_unit_q2 IS
+    PORT (
+        clk, res       : IN std_logic;
+        Reg1, Reg2     : IN std_logic_vector(7 DOWNTO 0); -- 8-bit inputs A & B
+        opcode         : IN std_logic_vector(7 DOWNTO 0); -- 8-bit opcode
+        Result_high    : OUT std_logic_vector(3 DOWNTO 0); -- Upper 4 bits of the result
+        Result_low     : OUT std_logic_vector(3 DOWNTO 0); -- Lower 4 bits of the result
+        Negative_high  : OUT std_logic; -- Negative indicator for Result_high
+        Negative_low   : OUT std_logic  -- Negative indicator for Result_low
+    );
+END ALU_unit_q2;
+
+ARCHITECTURE calculation OF ALU_unit_q2 IS
+    SIGNAL Result : std_logic_vector(7 DOWNTO 0); -- Internal 8-bit result
+BEGIN
+    PROCESS (clk, res)
+    BEGIN
+        IF res = '1' THEN
+            Result <= (OTHERS => '0'); -- Reset Result to "00000000"
+        ELSIF (rising_edge(clk)) THEN
+            CASE opcode IS
+                WHEN "00000001" => -- Function 1: Swap lower and upper 4 bits of A
+                    Result <= Reg1(3 DOWNTO 0) & Reg1(7 DOWNTO 4);
+                    
+                WHEN "00000010" => -- Function 2: OR A and B
+                    Result <= Reg1 OR Reg2;
+                    
+                WHEN "0000100" => -- Function 3: Decrement B by 5
+                    Result <= std_logic_vector(unsigned(Reg2) - 5);
+                    
+                WHEN "00001000" => -- Function 4: Invert all bits of A
+                    Result <= NOT Reg1;
+                    
+                WHEN "00010000" => -- Function 5: Invert bit-significance order of A
+                    Result <= NOT Reg1;
+                    
+                WHEN "00100000" => -- Function 6: Find max(A,B)
+                    IF unsigned(Reg1) >= unsigned(Reg2) THEN
+                        Result <= Reg1;
+                    ELSE
+                        Result <= Reg2;
+                    END IF;
+                    
+                WHEN "01000000" => -- Function 7: Difference between A and B
+                    Result <= std_logic_vector(unsigned(Reg1) - unsigned(Reg2));
+                    
+                WHEN "10000000" => -- Function 8: XNOR A and B
+                    Result <= NOT (Reg1 XOR Reg2);
+                    
+                WHEN OTHERS =>
+                    Result <= (OTHERS => '0'); -- Default case
+            END CASE;
+        END IF;
+    END PROCESS;
+    
+    -- Split Result into high and low 4-bit outputs
+    Result_high <= Result(7 DOWNTO 4);
+    Result_low <= Result(3 DOWNTO 0);
+    
+    -- Determine if high and low parts are negative (MSB of each part is '1')
+    Negative_high <= Result(7); -- MSB of the high part
+    Negative_low <= Result(3); -- MSB of the low part
+END calculation;
