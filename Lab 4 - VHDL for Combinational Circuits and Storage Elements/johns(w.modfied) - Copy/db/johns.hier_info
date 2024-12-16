@@ -1,0 +1,88 @@
+|johns_block
+leds_mag[6] <= sseg_j:inst4.leds_mag[6]
+leds_mag[5] <= sseg_j:inst4.leds_mag[5]
+leds_mag[4] <= sseg_j:inst4.leds_mag[4]
+leds_mag[3] <= sseg_j:inst4.leds_mag[3]
+leds_mag[2] <= sseg_j:inst4.leds_mag[2]
+leds_mag[1] <= sseg_j:inst4.leds_mag[1]
+leds_mag[0] <= sseg_j:inst4.leds_mag[0]
+Clrn => Johns:inst3.Clrn
+En => Johns:inst3.En
+Clk => Johns:inst3.Clkn
+leds_sign[6] <= sseg_j:inst4.leds_sign[6]
+leds_sign[5] <= sseg_j:inst4.leds_sign[5]
+leds_sign[4] <= sseg_j:inst4.leds_sign[4]
+leds_sign[3] <= sseg_j:inst4.leds_sign[3]
+leds_sign[2] <= sseg_j:inst4.leds_sign[2]
+leds_sign[1] <= sseg_j:inst4.leds_sign[1]
+leds_sign[0] <= sseg_j:inst4.leds_sign[0]
+Q[2] <= Johns:inst3.Q[2]
+Q[1] <= Johns:inst3.Q[1]
+Q[0] <= Johns:inst3.Q[0]
+
+
+|johns_block|sseg_j:inst4
+bcd[0] => Mux0.IN19
+bcd[0] => Mux1.IN19
+bcd[0] => Mux2.IN19
+bcd[0] => Mux3.IN19
+bcd[0] => Mux4.IN19
+bcd[0] => Mux5.IN19
+bcd[0] => Mux6.IN19
+bcd[1] => Mux0.IN18
+bcd[1] => Mux1.IN18
+bcd[1] => Mux2.IN18
+bcd[1] => Mux3.IN18
+bcd[1] => Mux4.IN18
+bcd[1] => Mux5.IN18
+bcd[1] => Mux6.IN18
+bcd[2] => Mux0.IN17
+bcd[2] => Mux1.IN17
+bcd[2] => Mux2.IN17
+bcd[2] => Mux3.IN17
+bcd[2] => Mux4.IN17
+bcd[2] => Mux5.IN17
+bcd[2] => Mux6.IN17
+bcd[3] => Mux0.IN16
+bcd[3] => Mux1.IN16
+bcd[3] => Mux2.IN16
+bcd[3] => Mux3.IN16
+bcd[3] => Mux4.IN16
+bcd[3] => Mux5.IN16
+bcd[3] => Mux6.IN16
+sign => leds_sign[6].DATAIN
+leds_mag[6] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[5] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[4] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[3] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[2] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[1] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+leds_mag[0] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+leds_sign[6] <= sign.DB_MAX_OUTPUT_PORT_TYPE
+leds_sign[5] <= <VCC>
+leds_sign[4] <= <VCC>
+leds_sign[3] <= <VCC>
+leds_sign[2] <= <VCC>
+leds_sign[1] <= <VCC>
+leds_sign[0] <= <VCC>
+
+
+|johns_block|Johns:inst3
+Clrn => Qreg[2].ACLR
+Clrn => Qreg[1].ACLR
+Clrn => Qreg[0].ACLR
+En => Qreg[0].ENA
+En => Qreg[1].ENA
+En => Qreg[2].ENA
+Clkn => Qreg[2].CLK
+Clkn => Qreg[1].CLK
+Clkn => Qreg[0].CLK
+W[0] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+W[1] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+W[2] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+W[3] <= <GND>
+Q[2] <= Qreg[2].DB_MAX_OUTPUT_PORT_TYPE
+Q[1] <= Qreg[1].DB_MAX_OUTPUT_PORT_TYPE
+Q[0] <= Qreg[0].DB_MAX_OUTPUT_PORT_TYPE
+
+
